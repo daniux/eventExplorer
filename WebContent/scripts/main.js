@@ -5,7 +5,9 @@
      */
     function init() {
         // Register event listeners
+    	$('signup-btn').addEventListener('click', signUp);
 		$('login-btn').addEventListener('click', login);
+		$('newuser-btn').addEventListener('click', goSignUp);
 		$('nearby-btn').addEventListener('click', loadNearbyItems);
 		$('fav-btn').addEventListener('click', loadFavoriteItems);
 		$('recommend-btn').addEventListener('click', loadRecommendedItems);
@@ -16,7 +18,7 @@
         welcomeMsg.innerHTML = 'Welcome, ' + user_fullname;
         initGeoLocation();
     }
-
+    
 	/**
 	 * Session
 	 */
@@ -43,7 +45,8 @@
 	function onSessionValid(result) {
 		user_id = result.user_id;
 		user_fullname = result.name;
-
+		
+		var signupForm = $('signup-form');
 		var loginForm = $('login-form');
 		var itemNav = $('item-nav');
 		var itemList = $('item-list');
@@ -58,6 +61,7 @@
 		showElement(avatar);
 		showElement(welcomeMsg);
 		showElement(logoutBtn, 'inline-block');
+		hideElement(signupForm);
 		hideElement(loginForm);
 
 		initGeoLocation();
@@ -65,6 +69,7 @@
 
 	function onSessionInvalid() {
 		var loginForm = $('login-form');
+		var signupForm = $('signup-form');
 		var itemNav = $('item-nav');
 		var itemList = $('item-list');
 		var avatar = $('avatar');
@@ -76,6 +81,7 @@
 		hideElement(avatar);
 		hideElement(logoutBtn);
 		hideElement(welcomeMsg);
+		hideElement(signupForm);
 
 		showElement(loginForm);
 	}
@@ -154,6 +160,10 @@
 		});
 	}
 
+	function showSignupError() {
+		$('signup-error').innerHTML = 'Username existed or not valid';
+	}
+	
 	function showLoginError() {
 		$('login-error').innerHTML = 'Invalid username or password';
 	}
@@ -161,8 +171,60 @@
 	function clearLoginError() {
 		$('login-error').innerHTML = '';
 	}
- 
+	
+	
+	// -----------------------------------
+	// Signup
+	// -----------------------------------
+	
+	function signUp() {
+		var user_id = $('user_id').value;
+		var firstname = $('firstname').value;
+		var lastname = $('lastname').value;
+		var password = $('pwd').value;
+		password = md5(user_id + md5(password));
+		
+		var url = './signup';
+		
+		// The request parameter
+		var req = JSON.stringify({
+			user_id : user_id,
+			firstname : firstname,
+			lastname : lastname,
+			password : password,
+		});
+		console.log(user_id);
+		console.log(firstname);
+		console.log(lastname);
+		console.log(password);
+		// make AJAX call
+		ajax('POST', url, req,
+		function(res) {
+			var result = JSON.parse(res);
+			
+			// successfully sign up
+			if (result.result == 'SUCCESS') {
+				init();
+			} 
+		},
+		
+		// show signup error
+		function() {
+			showSignupError();
+		});
+	}
     
+	// -----------------------------------
+	// goSignUp
+	// -----------------------------------
+	
+	function goSignUp() {
+		var loginForm = $('login-form');
+		var signupForm = $('signup-form');
+		
+		showElement(signupForm);
+		hideElement(loginForm);
+	}
     
     // -----------------------------------
     // Helper Functions

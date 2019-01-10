@@ -86,7 +86,7 @@ ul {
 .container>header p {
 	border-left: 1px solid #FFFFFF;
 	font-weight: 400;
-	font-size: 2em;
+	font-size: 3em;
 	line-height: 1em;
 	margin-left: 220px;
 	padding-left: 5px;
@@ -95,6 +95,43 @@ ul {
 .container>header span {
 	color: #FDEB8C;
 }
+
+/**
+ * signup form
+ */
+#signup-form {
+  color: #624630;
+  margin: 0px auto;
+  overflow: auto;
+  padding: 40px;
+  width: 300px;
+}
+
+#signup-form label {
+  display: block;
+}
+
+#signup-form input {
+  border: none;
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+}
+
+#signup-form button {
+  cursor: pointer;
+  float: left;
+  padding: 8px 20px;
+  text-align: right;
+}
+
+#signup-error {
+  clear: both;
+  color: #990000;
+  padding-top: 10px;
+}
+
 
 /**
  * login form
@@ -119,10 +156,17 @@ ul {
   width: 100%;
 }
 
-#login-form button {
+#login-form [id="login-btn"] {
+  cursor: pointer;
+  float: left;
+  padding: 8px 30px;
+  text-align: right;
+}
+
+#login-form [id="newuser-btn"] {
   cursor: pointer;
   float: right;
-  padding: 8px 20px;
+  padding: 8px 10px;
   text-align: right;
 }
 
