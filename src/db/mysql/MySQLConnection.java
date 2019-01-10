@@ -303,7 +303,7 @@ public class MySQLConnection implements DBConnection {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, userId);
 			ResultSet rs = statement.executeQuery();
-			if (rs.next()) {
+			if (!rs.next()) {
 				return true;
 			}
 		} catch (SQLException e) {

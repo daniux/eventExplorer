@@ -46,17 +46,17 @@ public class Signup extends HttpServlet {
 		try {
 			JSONObject input = RpcHelper.readJSONObject(request);
 			String userId = input.getString("user_id");
+			String firstName = input.getString("firstname");
+			String lastName = input.getString("lastname");
 			String password = input.getString("password");
-			String firstName = input.getString("firstName");
-			String lastName = input.getString("lastName");
-			
+
 			JSONObject obj = new JSONObject();
 			if (connection.verifyUserId(userId)) {
 				connection.addUser(userId, password, firstName, lastName);
 				obj.put("result", "SUCCESS").put("user_id", userId).put("name", connection.getFullname(userId));
 			} else {
 				response.setStatus(401);
-				obj.put("result", "User Already Exist!");
+				obj.put("result", "User Already Exist or Not Valid!");
 			}
 			RpcHelper.writeJsonObject(response, obj);
 		} catch (Exception e) {

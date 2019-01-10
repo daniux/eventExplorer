@@ -36,6 +36,7 @@ public class Login extends HttpServlet {
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
+			// will return current session if current session exists, then it will not create a new session.
 			HttpSession session = request.getSession(false);			
 			JSONObject obj = new JSONObject();
 			if (session != null) {
